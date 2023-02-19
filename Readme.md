@@ -1,1 +1,1 @@
-### My perconal projects in C
+### My personal projects in C
