@@ -35,7 +35,7 @@ double signal_mean(double* signal_source, unsigned int signal_length);
 ```
 ##### Returns the mean value of signal according to the function:
 
-#### $$\mu \:=\:\frac{1}{N}\sum _{i=0}^{N-1}\left(x_i\right)$$
+#### $$\mu \=\\frac{1}{N}\sum _{i=0}^{N-1}\left(x_i\right)$$
 
 - #### signal_variance
 
