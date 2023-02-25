@@ -110,11 +110,11 @@ double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_
   
 #### For _mode_ = 1, the function returns the real part array of the decomposed signal according to the function:
 
-#### $$X_j\=\\sum \_{i=0}^{N-1}R_i\cdot \cos\left(\frac{2\pi \ij}{N}\right)+I_i\.\sin\left(\frac{2\pi \\ij}{N}\right)$$
+#### $$X_j\=\\sum \_{i=0}^{N-1}R_i\cdot \cos\left(\frac{2\pi\i\j}{N}\right)+I_i\.\sin\left(\frac{2\pi\i\j}{N}\right)$$
 
 #### For _mode_ = 0, the function returns the imaginary part array of the decomposed signal according to the function:
 
-#### $$X_j\=\\sum \_{i=0}^{N-1}-I_i\cdot \left(\cos\left(\frac{2\pi \\ij}{N}\right)+\sin\left(\frac{2\pi \\\ij}{N}\right)\right)$$
+#### $$X_j\=\\sum \_{i=0}^{N-1}-I_i\cdot \left(\cos\left(\frac{2\pi\i\j}{N}\right)+\sin\left(\frac{2\pi\i\j}{N}\right)\right)$$
 
 - #### signal_inverse_DFT
 
@@ -132,7 +132,7 @@ double* signal_amplitude(double* real_signal_source, double* imaginary_signal_so
 
 ##### Returns an array of signal amplitude for each point from real and imaginary arrays of decomposed signal according to the function:
 
-#### $$\left|X_i\right|=\sqrt{Re\left(x_i\right)^2+Im\left(x_i\right)^2\}$$
+#### $$\left|X_k\right|=\sqrt{\Re\left(x_k\right)^2+\Im\left(x_k\right)^2\}$$
 
 - #### signal_phase
 
@@ -142,7 +142,7 @@ double* signal_phase(double* real_signal_source, double* imaginary_signal_source
 
 ##### Returns an array of signal phase for each point from real and imaginary arrays of decomposed signal according to the function:
 
-#### $$Arg\left(X_k\right)\=\\arctan \left(Im\left(x_k\right),\Re\left(x_k\right)\right)$$
+#### $$Arg\left(X_k\right)\=\\arctan \left(\Im\left(x_k\right),\Re\left(x_k\right)\right)$$
 
 ## Single point functions description
 
