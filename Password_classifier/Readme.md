@@ -14,3 +14,11 @@
 The list of commom passwords in pass_classifier.c file was taken from the topic **Here Are the Most Popular Passwords of 2019** (link below):
 
 <https://nordpass.com/blog/top-worst-passwords-2019/#:~:text=The%20most%20popular%20passwords%20contain,%2C%201qaz2wsx%2C%20etc.).>
+
+### Examples
+
+![](examples/all_lower.png "All Lower")
+![](examples/all_numbers.png "All Numbers")
+![](examples/all_upper.png "All Upper")
+![](examples/in_dictionary.png "In Dictionary")
+![](examples/strong_one.png "Strong One")
