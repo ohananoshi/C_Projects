@@ -152,4 +152,4 @@ double* signal_phase(double* real_signal_source, double* imaginary_signal_source
 double point_ret_to_polar(double point_x, double point_y, bool axis)
 ```
 
-##### Converts a (x,y) point to (r,$$\theta$$) point.
+##### Converts a (x,y) point to (r,θ) point.
