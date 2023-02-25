@@ -45,7 +45,7 @@ double signal_variance(double* signal_source, double signal_mean, unsigned int s
 
 ##### Returns the variance value of signal according to the function:
 
-#### $$\sigma^2 \:=\:\sum _{i=0}^{N-1}\left(x_i-\mu \right)^2$$
+#### $$\sigma^2 \=\\sum _{i=0}^{N-1}\left(x_i-\mu \right)^2$$
 
 - #### signal_standard_deviation
 
@@ -55,7 +55,7 @@ double signal_standard_deviation(double signal_variance);
 
 ##### Returns the standard deviation value of signal according to the function:
 
-#### $$\sigma \:=\:\sqrt{\sigma ^2}$$
+#### $$\sigma \=\\sqrt{\sigma ^2}$$
 
 - #### signal_convolution
 
@@ -65,7 +65,7 @@ double* signal_convolution(double* signal_source, unsigned int signal_length, do
 
 ##### Returns an array of signal according to the function:
 
-#### $$\left(f\cdot h_N\right)\left[n\right]\:=\:\sum _{j=0}^{N-1}f\left[j\right]h_N\left[n-j\right]$$
+#### $$\left(f\cdot h_N\right)\left[n\right]\=\\sum _{j=0}^{N-1}f\left[j\right]h_N\left[n-j\right]$$
 
 - #### signal_first_difference
 
@@ -75,7 +75,7 @@ double* signal_first_difference(double* signal_source, unsigned int signal_lengt
 
 ##### Simple form for the numerical first derivative according to the function:
 
-#### $$D\left[n\right]\:=\frac{X\left[n\right]-X\left[n-1\right]}{N}$$
+#### $$D\left[n\right]\=\frac{X\left[n\right]-X\left[n-1\right]}{N}$$
 
 - #### signal_running_sum
 
@@ -85,7 +85,7 @@ double* signal_running_sum(double* signal_source, unsigned int signal_length);
 
 ##### Simple form for the numerical integration according to the function:
 
-#### $$D\left[n\right]\:=X\left[n\right]-D\left[n-1\right]$$
+#### $$D\left[n\right]\=X\left[n\right]-D\left[n-1\right]$$
 
 - #### signal_DFT
 
@@ -95,11 +95,11 @@ double* signal_DFT(double* signal_source, unsigned int signal_length, bool mode)
 
 #### For _mode_ = 1, the function returns the real part array of the decomposed signal according to the function:
 
-#### $$X_j\:=\:\sum _{i=0}^{N-1}x_i\cdot cos\left(\frac{2\pi ij}{N}\right)$$
+#### $$X_j\=\\sum _{i=0}^{N-1}x_i\cdot cos\left(\frac{2\pi ij}{N}\right)$$
 
 #### For _mode_ = 0, the function returns the imaginary part array of the decomposed signal according to the function:
 
-#### $$X_j\:=\:\sum _{i=0}^{N-1}x_i\cdot -sin\left(\frac{2\pi ij}{N}\right)$$
+#### $$X_j\=\\sum _{i=0}^{N-1}x_i\cdot -sin\left(\frac{2\pi ij}{N}\right)$$
 
 - #### signal_complex_DFT
 
@@ -110,11 +110,11 @@ double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_
   
 #### For _mode_ = 1, the function returns the real part array of the decomposed signal according to the function:
 
-#### $$X_j\:=\:\sum \:_{i=0}^{N-1}R_i\cdot \:cos\left(\frac{2\pi \:ij}{N}\right)+I_i\:.\:sin\left(\frac{2\pi \:\:ij}{N}\right)$$
+#### $$X_j\=\\sum \_{i=0}^{N-1}R_i\cdot \cos\left(\frac{2\pi \ij}{N}\right)+I_i\.\sin\left(\frac{2\pi \\ij}{N}\right)$$
 
 #### For _mode_ = 0, the function returns the imaginary part array of the decomposed signal according to the function:
 
-#### $$X_j\:=\:\sum \:_{i=0}^{N-1}-I_i\cdot \left(\:cos\left(\frac{2\pi \:\:ij}{N}\right)+\:sin\left(\frac{2\pi \:\:\:ij}{N}\right)\right)$$
+#### $$X_j\=\\sum \_{i=0}^{N-1}-I_i\cdot \left(\cos\left(\frac{2\pi \\ij}{N}\right)+\sin\left(\frac{2\pi \\\ij}{N}\right)\right)$$
 
 - #### signal_inverse_DFT
 
@@ -132,7 +132,7 @@ double* signal_amplitude(double* real_signal_source, double* imaginary_signal_so
 
 ##### Returns an array of signal amplitude for each point from real and imaginary arrays of decomposed signal according to the function:
 
-#### $$\left|X_i\right|=\sqrt{Re\left(x_i\right)^2+Im\left(x_i\right)^2\:}$$
+#### $$\left|X_i\right|=\sqrt{Re\left(x_i\right)^2+Im\left(x_i\right)^2\}$$
 
 - #### signal_phase
 
@@ -142,7 +142,7 @@ double* signal_phase(double* real_signal_source, double* imaginary_signal_source
 
 ##### Returns an array of signal phase for each point from real and imaginary arrays of decomposed signal according to the function:
 
-#### $$Arg\left(X_k\right)\:=\:\arctan \left(Im\left(x_k\right),\:Re\left(x_k\right)\right)$$
+#### $$Arg\left(X_k\right)\=\\arctan \left(Im\left(x_k\right),\Re\left(x_k\right)\right)$$
 
 ## Single point functions description
 
