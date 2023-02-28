@@ -10,6 +10,7 @@
 
 ## Array functions (signal functions)
 
+- signal_generate
 - signal_mean
 - signal_variance
 - signal_standard_deviation
