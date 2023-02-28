@@ -8,7 +8,7 @@
 
     Created on: 23/02/2023
 
-    Last updated: 24/02/2023
+    Last updated: 28/02/2023
 */
 
 #pragma once
@@ -17,12 +17,61 @@
 #include <stdbool.h>
 #include <math.h>
 
+#define MAX_SIGNAL_LENGTH 65535
+
+typedef double (*f_x)(double);
 
 double point_ret_to_polar(double point_x, double point_y, bool axis){
 
     if(axis){
         return sqrt(pow(point_x, 2.0) + pow(point_y, 2.0));
     }else return atan2(point_y, point_x);
+}
+
+double* signal_generate(f_x func,
+                        double interval_start,
+                        double interval_end,
+                        double signal_length){
+
+    if(signal_length > MAX_SIGNAL_LENGTH){
+        printf("ERROR. Array size exceeds %d elements.", MAX_SIGNAL_LENGTH);
+        return NULL;
+    }
+
+    double* generated_signal = (double*)malloc((unsigned int)(signal_length+1)*sizeof(double));
+    double step = (interval_end - interval_start)/signal_length;
+
+    for(unsigned int i = 0; i <= signal_length; i++){
+       generated_signal[i] = func(((double)i)*step);
+    }
+
+    return generated_signal;
+}
+
+double signal_mean(double* signal_source, unsigned int signal_length){
+
+    double mean = 0;
+
+    for(unsigned int i = 0; i < signal_length; i++){
+        mean += signal_source[i];
+    }
+
+    return mean/signal_length;
+}
+
+double signal_variance(double* signal_source, double signal_mean, unsigned int signal_length){
+
+    double variance;
+
+    for(unsigned int i = 0; i < signal_length; i++){
+        variance += pow(signal_source[i] - signal_mean, 2.0);
+    }
+
+    return variance;
+}
+
+double signal_std_deviation(double signal_variance){
+    return sqrt(signal_variance);
 }
 
 double* signal_convolution(double* signal_source, unsigned int signal_length, double* impulse_response, unsigned int impulse_response_length){
