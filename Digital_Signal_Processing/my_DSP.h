@@ -4,7 +4,7 @@
 
     Author: Guilherme Arruda
 
-    GitHub: https://github.com/ohananoshi
+    GitHub: https://github.com/ohananoshi/C_Projects/tree/main/Digital_Signal_Processing
 
     Created on: 23/02/2023
 
@@ -17,7 +17,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-#define MAX_SIGNAL_LENGTH 65535
+#define MAX_ARRAY_SIZE 65535
 
 typedef double (*f_x)(double);
 
@@ -31,39 +31,52 @@ double point_ret_to_polar(double point_x, double point_y, bool axis){
 double* signal_generate(f_x func,
                         double interval_start,
                         double interval_end,
-                        double signal_length){
+                        double signal_source_length){
 
-    if(signal_length > MAX_SIGNAL_LENGTH){
-        printf("ERROR. Array size exceeds %d elements.", MAX_SIGNAL_LENGTH);
-        return NULL;
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
     }
 
-    double* generated_signal = (double*)malloc((unsigned int)(signal_length+1)*sizeof(double));
-    double step = (interval_end - interval_start)/signal_length;
+    double* generated_signal = (double*)malloc((unsigned int)(signal_source_length+1)*sizeof(double));
+    double step = (interval_end - interval_start)/signal_source_length;
 
-    for(unsigned int i = 0; i <= signal_length; i++){
-       generated_signal[i] = func(((double)i)*step);
+    for(unsigned int i = 0; i <= signal_source_length; i++){
+       generated_signal[i] = func(interval_start + ((double)i)*step);
     }
 
     return generated_signal;
 }
 
-double signal_mean(double* signal_source, unsigned int signal_length){
+double signal_mean(double* signal_source, unsigned int signal_source_length){
+
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
     double mean = 0;
 
-    for(unsigned int i = 0; i < signal_length; i++){
+    for(unsigned int i = 0; i < signal_source_length; i++){
         mean += signal_source[i];
     }
 
-    return mean/signal_length;
+    return mean/signal_source_length;
 }
 
-double signal_variance(double* signal_source, double signal_mean, unsigned int signal_length){
+double signal_variance(double* signal_source, double signal_mean, unsigned int signal_source_length){
+
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
     double variance;
 
-    for(unsigned int i = 0; i < signal_length; i++){
+    for(unsigned int i = 0; i < signal_source_length; i++){
         variance += pow(signal_source[i] - signal_mean, 2.0);
     }
 
@@ -74,66 +87,90 @@ double signal_std_deviation(double signal_variance){
     return sqrt(signal_variance);
 }
 
-double* signal_convolution(double* signal_source, unsigned int signal_length, double* impulse_response, unsigned int impulse_response_length){
+double* signal_convolution(double* signal_source, unsigned int signal_source_length, double* impulse_response, unsigned int impulse_response_length){
 
-    unsigned int conv_signal_length = signal_length+impulse_response_length-1;
-    double *conv_signal = (double*)malloc(conv_signal_length*sizeof(double));
+    if(signal_source_length > MAX_ARRAY_SIZE  || impulse_response_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
-    for(int i = 0; i < conv_signal_length; i++){
+    unsigned int conv_out_length = signal_source_length+impulse_response_length-1;
+    double *conv_signal = (double*)malloc(conv_out_length*sizeof(double));
+
+    for(int i = 0; i < conv_out_length; i++){
         conv_signal[i] = 0;
     }
 
-    for(int i = 0; i < signal_length; i++){
+    for(int i = 0; i < signal_source_length; i++){
         for(int j = 0; j < impulse_response_length; j++){
-            conv_signal[i] += signal_source[i - j]*impulse_response[j];
+            conv_signal[i+j] += signal_source[i]*impulse_response[j];
         }
     }
 
     return conv_signal;
 }
 
-double* signal_first_difference(double* signal_source, unsigned int signal_length){
+double* signal_first_difference(double* signal_source, unsigned int signal_source_length){
 
-    double* out_signal = (double*)malloc(signal_length*sizeof(double));
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
-    for(int i = 1; i < signal_length; i++){
+    double* out_signal = (double*)malloc(signal_source_length*sizeof(double));
+
+    for(int i = 1; i < signal_source_length; i++){
         out_signal[i] = signal_source[i] - signal_source[i-1];
     }
 
     return out_signal;
 }
 
-double* signal_running_sum(double* signal_source, unsigned int signal_length){
+double* signal_running_sum(double* signal_source, unsigned int signal_source_length){
 
-    double* out_signal = (double*)malloc(signal_length*sizeof(double));
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
+
+    double* out_signal = (double*)malloc(signal_source_length*sizeof(double));
 
     out_signal[0] = signal_source[0];
 
-    for(int i = 1; i < signal_length; i++){
+    for(int i = 1; i < signal_source_length; i++){
         out_signal[i] = signal_source[i] + out_signal[i-1];
     }
 
     return out_signal;
 }
 
-double* signal_DFT(double* signal_source, unsigned int signal_length, bool mode){
+double* signal_DFT(double* signal_source, unsigned int signal_source_length, bool mode){
 
-    double* out_signal = (double*)malloc((signal_length/2)*sizeof(double));
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
-    for(int k = 0; k < (signal_length/2); k++){
+    double* out_signal = (double*)malloc((signal_source_length/2)*sizeof(double));
+
+    for(int k = 0; k < (signal_source_length/2); k++){
         out_signal[k] = 0;
     }
 
     if(mode){
-        for(int i = 0; i < (signal_length/2); i++){
-            for(int j = 0; j < signal_length; j++){
-                out_signal[i] += out_signal[i]*cos(2*M_PI*i*j/signal_length);
+        for(int i = 0; i < (signal_source_length/2); i++){
+            for(int j = 0; j < signal_source_length; j++){
+                out_signal[i] += out_signal[i]*cos(2*M_PI*i*j/signal_source_length);
             }
         }
     }else{
-        for(int i = 0; i < (signal_length/2); i++){
-            for(int j = 0; j < signal_length; j++){
-                out_signal[i] += -out_signal[i]*sin(2*M_PI*i*j/signal_length);
+        for(int i = 0; i < (signal_source_length/2); i++){
+            for(int j = 0; j < signal_source_length; j++){
+                out_signal[i] += -out_signal[i]*sin(2*M_PI*i*j/signal_source_length);
             }
         }
     }
@@ -141,24 +178,30 @@ double* signal_DFT(double* signal_source, unsigned int signal_length, bool mode)
     return out_signal;
 }
 
-double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_length, bool mode){
+double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length, bool mode){
 
-    double* out_signal = (double*)malloc(signal_length*sizeof(double));
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
-    for(int k = 0; k < signal_length; k++){
+    double* out_signal = (double*)malloc(signal_source_length*sizeof(double));
+
+    for(int k = 0; k < signal_source_length; k++){
         out_signal[k] = 0;
     }
 
     if(mode){
-        for(int i = 0; i < signal_length; i++){
-            for(int j = 0; j < signal_length; j++){
-                out_signal[i] += real_signal_source[i]*cos(2*M_PI*i*j/signal_length) + imaginary_signal_source[i]*sin(2*M_PI*i*j/signal_length);
+        for(int i = 0; i < signal_source_length; i++){
+            for(int j = 0; j < signal_source_length; j++){
+                out_signal[i] += real_signal_source[i]*cos(2*M_PI*i*j/signal_source_length) + imaginary_signal_source[i]*sin(2*M_PI*i*j/signal_source_length);
             }
         }
     }else{
-        for(int i = 0; i < signal_length; i++){
-            for(int j = 0; j < signal_length; j++){
-                out_signal[i] += -imaginary_signal_source[i]*(cos(2*M_PI*i*j/signal_length) + sin(2*M_PI*i*j/signal_length));
+        for(int i = 0; i < signal_source_length; i++){
+            for(int j = 0; j < signal_source_length; j++){
+                out_signal[i] += -imaginary_signal_source[i]*(cos(2*M_PI*i*j/signal_source_length) + sin(2*M_PI*i*j/signal_source_length));
             }
         }
     }
@@ -167,6 +210,12 @@ double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_
 }
 
 double* signal_inverse_DFT(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length){
+
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
     double* out_signal = (double*)malloc((2*signal_source_length)*sizeof(double));
     double* temp_real_signal = (double*)malloc(signal_source_length*sizeof(double));
@@ -196,6 +245,12 @@ double* signal_inverse_DFT(double* real_signal_source, double* imaginary_signal_
 
 double* signal_amplitude(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length){
 
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
+
     double* amplitude = (double*)malloc(signal_source_length*sizeof(double));
 
     for(int i = 0; i < signal_source_length; i++){
@@ -206,6 +261,12 @@ double* signal_amplitude(double* real_signal_source, double* imaginary_signal_so
 }
 
 double* signal_phase(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length){
+
+    if(signal_source_length > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+        system("pause");
+        exit(2);
+    }
 
     double* phase = (double*)malloc(signal_source_length*sizeof(double));
 
