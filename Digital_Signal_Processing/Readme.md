@@ -154,3 +154,17 @@ double point_ret_to_polar(double point_x, double point_y, bool axis)
 ```
 
 ##### Converts a (x,y) point to (r,θ) point.
+
+### Examples
+
+- Mean, Variance and Standard Deviation
+
+![](examples/example.png "Mean, Variance and Std Deviation")
+
+- Convolution
+
+![](examples/example2.png "Convolution")
+
+- First Difference and Running Sum
+
+![](examples/example3.png "First Difference and Runnning Sum")
