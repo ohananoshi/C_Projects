@@ -157,20 +157,20 @@ double* signal_DFT(double* signal_source, unsigned int signal_source_length, boo
 
     double* out_signal = (double*)malloc((signal_source_length/2)*sizeof(double));
 
-    for(int k = 0; k < (signal_source_length/2); k++){
+    for(unsigned int k = 0; k < (signal_source_length/2); k++){
         out_signal[k] = 0;
     }
 
     if(mode){
-        for(int i = 0; i < (signal_source_length/2); i++){
-            for(int j = 0; j < signal_source_length; j++){
-                out_signal[i] += out_signal[i]*cos(2*M_PI*i*j/signal_source_length);
+        for(unsigned int i = 0; i < (signal_source_length/2); i++){
+            for(unsigned int j = 0; j < signal_source_length; j++){
+                out_signal[i] += signal_source[j]*cos(2*M_PI*i*j/signal_source_length);
             }
         }
     }else{
-        for(int i = 0; i < (signal_source_length/2); i++){
-            for(int j = 0; j < signal_source_length; j++){
-                out_signal[i] += -out_signal[i]*sin(2*M_PI*i*j/signal_source_length);
+        for(unsigned int i = 0; i < (signal_source_length/2); i++){
+            for(unsigned int j = 0; j < signal_source_length; j++){
+                out_signal[i] += -signal_source[j]*sin(2*M_PI*i*j/signal_source_length);
             }
         }
     }
@@ -180,7 +180,7 @@ double* signal_DFT(double* signal_source, unsigned int signal_source_length, boo
 
 double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length, bool mode){
 
-    if(signal_source_length > MAX_ARRAY_SIZE){
+    if((signal_source_length*2) > MAX_ARRAY_SIZE){
         fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
         system("pause");
         exit(2);
@@ -188,19 +188,19 @@ double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_
 
     double* out_signal = (double*)malloc(signal_source_length*sizeof(double));
 
-    for(int k = 0; k < signal_source_length; k++){
+    for(unsigned int k = 0; k < signal_source_length; k++){
         out_signal[k] = 0;
     }
 
     if(mode){
-        for(int i = 0; i < signal_source_length; i++){
-            for(int j = 0; j < signal_source_length; j++){
+        for(unsigned int i = 0; i < signal_source_length; i++){
+            for(unsigned int j = 0; j < signal_source_length; j++){
                 out_signal[i] += real_signal_source[i]*cos(2*M_PI*i*j/signal_source_length) + imaginary_signal_source[i]*sin(2*M_PI*i*j/signal_source_length);
             }
         }
     }else{
-        for(int i = 0; i < signal_source_length; i++){
-            for(int j = 0; j < signal_source_length; j++){
+        for(unsigned int i = 0; i < signal_source_length; i++){
+            for(unsigned int j = 0; j < signal_source_length; j++){
                 out_signal[i] += -imaginary_signal_source[i]*(cos(2*M_PI*i*j/signal_source_length) + sin(2*M_PI*i*j/signal_source_length));
             }
         }
@@ -211,8 +211,8 @@ double* signal_complex_DFT(double* real_signal_source, double* imaginary_signal_
 
 double* signal_inverse_DFT(double* real_signal_source, double* imaginary_signal_source, unsigned int signal_source_length){
 
-    if(signal_source_length > MAX_ARRAY_SIZE){
-        fprintf(stderr, "ERROR. Array size exceeds %d elements.", MAX_ARRAY_SIZE);
+    if((signal_source_length*2) > MAX_ARRAY_SIZE){
+        fprintf(stderr, "ERROR. Output array size exceeds %d elements.", MAX_ARRAY_SIZE);
         system("pause");
         exit(2);
     }
@@ -221,11 +221,14 @@ double* signal_inverse_DFT(double* real_signal_source, double* imaginary_signal_
     double* temp_real_signal = (double*)malloc(signal_source_length*sizeof(double));
     double* temp_imaginary_signal = (double*)malloc(signal_source_length*sizeof(double));
 
-    for(int i = 0; i < signal_source_length; i++){
-        out_signal[i] = 0;
+    for(unsigned int i = 0; i < signal_source_length; i++){
         temp_real_signal[i] = real_signal_source[i]/signal_source_length;
         temp_imaginary_signal[i] = -imaginary_signal_source[i]/signal_source_length;
 
+    }
+
+    for(unsigned int i = 0; i < 2*signal_source_length; i++){
+        out_signal[i] = 0;
     }
 
     temp_real_signal[0] = real_signal_source[0]/2;
