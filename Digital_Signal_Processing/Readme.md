@@ -168,3 +168,7 @@ double point_ret_to_polar(double point_x, double point_y, bool axis)
 - First Difference and Running Sum
 
 ![](examples/example3.png "First Difference and Runnning Sum")
+
+- DFT and Inverse DFT
+
+![](examples/example4.png "DFT and Inverse DFT")
